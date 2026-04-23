@@ -160,8 +160,17 @@
       color: rgb(var(--color-muted));
     }
 
+    .meta-button {
+      min-height: 40px;
+      padding: 0 14px;
+      color: rgb(var(--color-muted));
+      background: rgb(var(--color-background) / 0.45);
+      font-size: 11px;
+    }
+
     .pill:hover,
     .theme-toggle:hover,
+    .meta-button:hover,
     .answer-button:hover,
     .utility-button:hover,
     .cta-button:hover {
@@ -236,6 +245,21 @@
       min-height: 48px;
       padding: 0 18px;
       font-size: 12px;
+    }
+
+    .primary-tool-button {
+      color: rgb(var(--color-accent));
+      border-color: rgb(var(--color-accent));
+      background: rgb(var(--color-accent-soft));
+      min-height: 56px;
+      padding: 0 22px;
+      font-weight: 700;
+    }
+
+    .primary-tool-button:hover {
+      background: rgb(var(--color-accent));
+      color: rgb(var(--color-background));
+      border-color: rgb(var(--color-accent));
     }
 
     .cta-button {
@@ -498,8 +522,109 @@
       flex-wrap: wrap;
     }
 
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgb(0 0 0 / 0.68);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 30;
+    }
+
+    .modal-backdrop.is-open {
+      display: flex;
+    }
+
+    .modal-panel {
+      width: min(100%, 760px);
+      border: 1px solid rgb(var(--color-border));
+      background: rgb(var(--color-surface));
+      padding: 24px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 1px solid rgb(var(--color-border));
+      padding-bottom: 16px;
+    }
+
+    .modal-title {
+      font-size: clamp(22px, 4vw, 32px);
+      line-height: 1.08;
+      letter-spacing: 0.1em;
+    }
+
+    .modal-close {
+      min-width: 40px;
+      min-height: 40px;
+      padding: 0 12px;
+      color: rgb(var(--color-muted));
+      background: rgb(var(--color-background) / 0.4);
+    }
+
+    .modal-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(220px, 0.95fr);
+      gap: 20px;
+    }
+
+    .modal-copy {
+      color: rgb(var(--color-muted));
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      display: grid;
+      gap: 14px;
+    }
+
+    .modal-list {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .modal-list li {
+      border-top: 1px solid rgb(var(--color-border));
+      padding-top: 10px;
+      color: rgb(var(--color-muted));
+      font-size: 11px;
+      letter-spacing: 0.08em;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding-top: 4px;
+    }
+
     .print-only {
       display: none;
+    }
+
+    @media (max-width: 900px) {
+      .header-brand img {
+        width: min(220px, 52vw);
+      }
+
+      .tool-actions .cta-button,
+      .tool-actions .primary-tool-button {
+        width: 100%;
+      }
+
+      .summary-card {
+        min-height: 120px;
+      }
+
+      .results-panel {
+        top: 96px;
+      }
     }
 
     @media (max-width: 1100px) {
@@ -523,16 +648,56 @@
         padding: 14px 0;
         align-items: flex-start;
         flex-direction: column;
+        gap: 14px;
       }
 
       .header-meta {
         justify-content: flex-start;
+        width: 100%;
       }
 
       .summary-grid,
       .results-grid,
       .answer-row {
         grid-template-columns: 1fr;
+      }
+
+      .tool-title {
+        font-size: clamp(22px, 7vw, 32px);
+      }
+
+      .modal-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tool-actions,
+      .report-tools,
+      .modal-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .tool-actions .utility-button,
+      .tool-actions .primary-tool-button,
+      .tool-actions .cta-button,
+      .report-tools .utility-button,
+      .modal-actions .utility-button,
+      .modal-actions .cta-button {
+        width: 100%;
+      }
+
+      .results-panel,
+      .report-panel,
+      .question-card {
+        padding: 16px;
+      }
+
+      .score-value {
+        font-size: clamp(42px, 18vw, 68px);
+      }
+
+      .question-number {
+        min-width: 0;
       }
 
       .question-topline,
@@ -544,6 +709,85 @@
       }
     }
 
+    @media (max-width: 560px) {
+      .header-inner,
+      .section-inner {
+        width: min(calc(100% - 20px), var(--max-width));
+      }
+
+      .header-brand img {
+        width: min(200px, 62vw);
+      }
+
+      .pill,
+      .theme-toggle {
+        min-height: 38px;
+        font-size: 10px;
+      }
+
+      .header-meta {
+        gap: 8px;
+      }
+
+      .modal-panel {
+        padding: 16px;
+        gap: 14px;
+      }
+
+      .modal-header {
+        padding-bottom: 12px;
+      }
+
+      .app-intro-grid {
+        gap: 16px;
+        padding: 20px 0;
+      }
+
+      .tool-copy,
+      .section-copy,
+      .result-copy,
+      .lead-copy,
+      .micro-copy,
+      .report-caption {
+        font-size: 11px;
+      }
+
+      .summary-card {
+        padding: 14px;
+        min-height: 0;
+      }
+
+      .summary-value,
+      .metric-value {
+        font-size: 20px;
+      }
+
+      .section-title {
+        font-size: clamp(22px, 8vw, 30px);
+      }
+
+      .question-text {
+        font-size: 13px;
+      }
+
+      .answer-button,
+      .primary-tool-button,
+      .cta-button,
+      .utility-button,
+      .lead-form input {
+        min-height: 44px;
+        font-size: 11px;
+      }
+
+      .results-panel {
+        gap: 18px;
+      }
+
+      .metric-card {
+        min-height: 0;
+      }
+    }
+
     @media print {
       body {
         background: #ffffff;
@@ -552,9 +796,8 @@
 
       .site-header,
       .footer-strip,
+      .modal-backdrop,
       .tool-actions,
-      .lead-form,
-      .success-note,
       .report-tools,
       .report-caption {
         display: none !important;
@@ -613,6 +856,7 @@
       }
 
       .answer-button.is-selected,
+      .primary-tool-button,
       .result-band,
       .cta-button {
         color: #111111 !important;
@@ -632,6 +876,7 @@
         <div class="header-meta">
           <div class="pill">XR READINESS ASSESSMENT</div>
           <div class="pill">INTERNAL TOOL / LEAD QUALIFIER</div>
+          <button class="meta-button" id="aboutOpenButton" type="button">ABOUT BSD XR</button>
           <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">MODE</button>
         </div>
       </div>
@@ -648,8 +893,8 @@
             </p>
             <div class="tool-actions">
               <a class="utility-button" href="#assessment">GO TO QUESTIONS</a>
-              <button class="utility-button" id="printButton" type="button">EXPORT PDF</button>
-              <a class="cta-button" href="#report">GET YOUR FREE XR OPPORTUNITY REPORT</a>
+              <button class="primary-tool-button" id="printButton" type="button">DOWNLOAD PDF REPORT</button>
+              <a class="cta-button" href="https://bsdxr.com/contact" target="_blank" rel="noreferrer">CONTACT BSD XR</a>
             </div>
           </div>
           <div class="summary-grid" aria-label="Tool summary">
@@ -735,23 +980,15 @@
               <div class="report-panel">
                 <div class="report-row">
                   <div>
-                    <div class="detail-label" style="color: rgb(var(--color-text));">GET YOUR FREE XR OPPORTUNITY REPORT</div>
-                    <div class="report-caption" style="margin-top: 10px;">CAPTURE CONTACT DETAILS TO FOLLOW THIS SCORE WITH RECOMMENDED USE CASES AND DEPLOYMENT NEXT STEPS.</div>
+                    <div class="detail-label" style="color: rgb(var(--color-text));">CONTACT BSD XR</div>
+                    <div class="report-caption" style="margin-top: 10px;">TAKE THIS READINESS RESULT INTO A REAL CONVERSATION ABOUT OPPORTUNITY AREAS, PILOT SCOPE, AND DEPLOYMENT NEXT STEPS.</div>
                   </div>
                 </div>
-                <form class="lead-form" id="leadForm">
-                  <input type="text" name="name" placeholder="NAME" aria-label="Name" required />
-                  <input type="email" name="email" placeholder="WORK EMAIL" aria-label="Work email" required />
-                  <input type="text" name="company" placeholder="COMPANY" aria-label="Company" required />
-                  <button class="cta-button" type="submit">GET YOUR FREE XR OPPORTUNITY REPORT</button>
-                </form>
+                <a class="cta-button" href="https://bsdxr.com/contact" target="_blank" rel="noreferrer">GO TO BSDXR.COM/CONTACT</a>
                 <div class="report-tools">
-                  <button class="utility-button" id="reportPrintButton" type="button">SAVE REPORT AS PDF</button>
+                  <button class="primary-tool-button" id="reportPrintButton" type="button">DOWNLOAD PDF REPORT</button>
                 </div>
-                <div class="success-note" id="successNote">
-                  THANK YOU. YOUR ASSESSMENT IS READY FOR FOLLOW-UP.
-                </div>
-                <p class="report-caption">THIS DEMO STORES RESPONSES IN YOUR BROWSER ONLY.</p>
+                <p class="report-caption">THE PDF EXPORT USES YOUR BROWSER PRINT DIALOG. CHOOSE SAVE AS PDF WHEN PROMPTED.</p>
               </div>
             </section>
           </aside>
@@ -767,16 +1004,51 @@
     </footer>
   </div>
 
+  <div class="modal-backdrop" id="aboutModal" aria-hidden="true">
+    <section class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="aboutModalTitle">
+      <div class="modal-header">
+        <div>
+          <div class="eyebrow">ABOUT BSD XR</div>
+          <h2 class="modal-title" id="aboutModalTitle">IMMERSIVE TECHNOLOGY EXPERTS</h2>
+        </div>
+        <button class="modal-close" id="aboutCloseButton" type="button" aria-label="Close about modal">CLOSE</button>
+      </div>
+
+      <div class="modal-grid">
+        <div class="modal-copy">
+          <p>BIT SPACE DEVELOPMENT LTD. (BSD XR) BUILDS XR, AR, VR, AND AI SOLUTIONS FOR ORGANIZATIONS THAT NEED BETTER TRAINING, BETTER SAFETY OUTCOMES, AND BETTER OPERATIONAL CONSISTENCY.</p>
+          <p>SINCE 2015, BSD XR HAS WORKED ACROSS AEROSPACE, CONSTRUCTION, EDUCATION, MINING, RAIL, AND MANUFACTURING TO DELIVER IMMERSIVE SYSTEMS THAT MOVE BEYOND NOVELTY INTO PRACTICAL DEPLOYMENT.</p>
+          <p>THIS READINESS TOOL IS DESIGNED TO HELP TEAMS QUICKLY IDENTIFY WHETHER THEIR CURRENT OPERATIONS, CONTENT, AND SCALE SIGNAL A STRONG FIT FOR XR ADOPTION.</p>
+        </div>
+
+        <ul class="modal-list" aria-label="BSD XR details">
+          <li>FOUNDED: 2015</li>
+          <li>LOCATION: WINNIPEG, MB, CANADA</li>
+          <li>SPECIALIZATION: XR / AR / VR / AI</li>
+          <li>APPROACH: DESIGN-LED, RESEARCH-DRIVEN</li>
+          <li>WEBSITE: BSDXR.COM</li>
+        </ul>
+      </div>
+
+      <div class="modal-actions">
+        <a class="cta-button" href="https://bsdxr.com/contact" target="_blank" rel="noreferrer">CONTACT BSD XR</a>
+        <button class="utility-button" id="aboutContinueButton" type="button">CONTINUE TO TOOL</button>
+      </div>
+    </section>
+  </div>
+
   <script>
     const logo = document.querySelector('.header-brand img');
     const themeToggle = document.getElementById('themeToggle');
+    const aboutModal = document.getElementById('aboutModal');
+    const aboutOpenButton = document.getElementById('aboutOpenButton');
+    const aboutCloseButton = document.getElementById('aboutCloseButton');
+    const aboutContinueButton = document.getElementById('aboutContinueButton');
     const questionList = document.getElementById('questionList');
     const scoreValue = document.getElementById('scoreValue');
     const resultBand = document.getElementById('resultBand');
     const resultCopy = document.getElementById('resultCopy');
     const insightList = document.getElementById('insightList');
-    const leadForm = document.getElementById('leadForm');
-    const successNote = document.getElementById('successNote');
     const answeredCount = document.getElementById('answeredCount');
     const readinessSignal = document.getElementById('readinessSignal');
     const printButton = document.getElementById('printButton');
@@ -998,6 +1270,18 @@
       window.print();
     }
 
+    function openAboutModal() {
+      aboutModal.classList.add('is-open');
+      aboutModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeAboutModal() {
+      aboutModal.classList.remove('is-open');
+      aboutModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
     themeToggle.addEventListener('click', () => {
       document.documentElement.classList.toggle('light');
       try {
@@ -1006,33 +1290,29 @@
       updateLogo();
     });
 
+    aboutOpenButton.addEventListener('click', openAboutModal);
+    aboutCloseButton.addEventListener('click', closeAboutModal);
+    aboutContinueButton.addEventListener('click', closeAboutModal);
+
+    aboutModal.addEventListener('click', (event) => {
+      if (event.target === aboutModal) {
+        closeAboutModal();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && aboutModal.classList.contains('is-open')) {
+        closeAboutModal();
+      }
+    });
+
     printButton.addEventListener('click', exportPdf);
     reportPrintButton.addEventListener('click', exportPdf);
-
-    leadForm.addEventListener('submit', (event) => {
-      event.preventDefault();
-      const formData = new FormData(leadForm);
-      const totalScore = Object.values(state).reduce((sum, value) => sum + value, 0);
-      const payload = {
-        name: String(formData.get('name') || '').trim(),
-        email: String(formData.get('email') || '').trim(),
-        company: String(formData.get('company') || '').trim(),
-        score: totalScore,
-        band: getBand(totalScore).name,
-        submittedAt: new Date().toISOString()
-      };
-
-      try {
-        localStorage.setItem('bsdxr-xr-readiness-demo', JSON.stringify(payload));
-      } catch (e) {}
-
-      successNote.classList.add('is-visible');
-      leadForm.reset();
-    });
 
     updateLogo();
     renderQuestions();
     renderResults();
+    setTimeout(openAboutModal, 300);
   </script>
 </body>
 </html>
