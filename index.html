@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BSD XR | Readiness Assessment</title>
+  <meta
+    name="description"
+    content="Assess your organization's readiness for XR deployment with BSD XR's interactive readiness assessment."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet" />
+  <script>
+    try {
+      if (localStorage.getItem('bsdxr-theme') === 'light') {
+        document.documentElement.classList.add('light');
+      }
+    } catch (e) {}
+  </script>
+  <style>
+    :root {
+      --color-background: 10 10 10;
+      --color-surface: 17 17 17;
+      --color-surface-2: 24 24 24;
+      --color-border: 34 34 34;
+      --color-border-light: 51 51 51;
+      --color-text: 229 229 229;
+      --color-muted: 102 102 102;
+      --color-accent: 255 255 255;
+      --color-accent-soft: 255 255 255 / 0.08;
+      --max-width: 1320px;
+    }
+
+    :root.light {
+      --color-background: 238 238 238;
+      --color-surface: 228 228 228;
+      --color-surface-2: 218 218 218;
+      --color-border: 204 204 204;
+      --color-border-light: 187 187 187;
+      --color-text: 17 17 17;
+      --color-muted: 119 119 119;
+      --color-accent: 27 79 216;
+      --color-accent-soft: 27 79 216 / 0.08;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Space Mono", monospace;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          rgb(var(--color-background)) 0,
+          rgb(var(--color-background)) 2px,
+          rgb(var(--color-background) / 0.96) 2px,
+          rgb(var(--color-background) / 0.96) 4px
+        );
+      color: rgb(var(--color-text));
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      line-height: 1.45;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+      text-transform: inherit;
+      letter-spacing: inherit;
+      color: inherit;
+      border-radius: 0;
+    }
+
+    button {
+      background: none;
+      cursor: pointer;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .page-shell {
+      min-height: 100vh;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+      background: rgb(var(--color-background) / 0.88);
+      border-bottom: 1px solid rgb(var(--color-border));
+    }
+
+    .header-inner,
+    .section-inner {
+      width: min(calc(100% - 48px), var(--max-width));
+      margin: 0 auto;
+    }
+
+    .header-inner {
+      min-height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .header-brand img {
+      width: min(250px, 42vw);
+      height: auto;
+    }
+
+    .header-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .pill,
+    .theme-toggle,
+    .answer-button,
+    .cta-button,
+    .utility-button {
+      border: 1px solid rgb(var(--color-border));
+      transition: border-color 160ms ease, color 160ms ease, background-color 160ms ease;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
+      padding: 0 14px;
+      color: rgb(var(--color-muted));
+      font-size: 11px;
+    }
+
+    .theme-toggle {
+      min-height: 40px;
+      min-width: 40px;
+      padding: 0 12px;
+      color: rgb(var(--color-muted));
+    }
+
+    .pill:hover,
+    .theme-toggle:hover,
+    .answer-button:hover,
+    .utility-button:hover,
+    .cta-button:hover {
+      border-color: rgb(var(--color-border-light));
+      color: rgb(var(--color-text));
+    }
+
+    .app-intro,
+    .main-section {
+      border-bottom: 1px solid rgb(var(--color-border));
+    }
+
+    .app-intro-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(340px, 0.85fr);
+      gap: 24px;
+      padding: 28px 0;
+      align-items: start;
+    }
+
+    .eyebrow,
+    .mini-label,
+    .detail-label {
+      color: rgb(var(--color-muted));
+      font-size: 11px;
+      letter-spacing: 0.28em;
+    }
+
+    .eyebrow {
+      margin-bottom: 16px;
+    }
+
+    .tool-title {
+      font-size: clamp(24px, 4vw, 40px);
+      line-height: 1.08;
+      letter-spacing: 0.1em;
+      margin-bottom: 14px;
+      max-width: 900px;
+    }
+
+    .tool-copy,
+    .section-copy,
+    .result-copy,
+    .lead-copy,
+    .micro-copy,
+    .report-caption,
+    .band-list li {
+      color: rgb(var(--color-muted));
+      font-size: 12px;
+      letter-spacing: 0.08em;
+    }
+
+    .tool-copy {
+      max-width: 860px;
+      font-size: 13px;
+    }
+
+    .tool-actions,
+    .report-tools {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .cta-button,
+    .utility-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      font-size: 12px;
+    }
+
+    .cta-button {
+      color: rgb(var(--color-accent));
+      border-color: rgb(var(--color-accent));
+      background: rgb(var(--color-accent-soft));
+    }
+
+    .cta-button:hover {
+      background: rgb(var(--color-accent));
+      color: rgb(var(--color-background));
+      border-color: rgb(var(--color-accent));
+    }
+
+    .utility-button {
+      background: rgb(var(--color-background) / 0.55);
+      color: rgb(var(--color-muted));
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px;
+      background: rgb(var(--color-border));
+      border: 1px solid rgb(var(--color-border));
+    }
+
+    .summary-card {
+      background: rgb(var(--color-surface));
+      padding: 18px;
+      min-height: 136px;
+      display: grid;
+      align-content: start;
+      gap: 12px;
+    }
+
+    .summary-value {
+      font-size: clamp(24px, 4vw, 40px);
+      letter-spacing: 0.1em;
+    }
+
+    .summary-copy {
+      color: rgb(var(--color-muted));
+      font-size: 11px;
+      letter-spacing: 0.08em;
+    }
+
+    .assessment-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+      gap: 48px;
+      padding: 32px 0 72px;
+    }
+
+    .section-title {
+      font-size: clamp(26px, 4vw, 42px);
+      line-height: 1.04;
+      margin-bottom: 18px;
+    }
+
+    .question-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .question-card {
+      border: 1px solid rgb(var(--color-border));
+      background: rgb(var(--color-surface) / 0.88);
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .question-topline {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .question-number {
+      color: rgb(var(--color-muted));
+      font-size: 11px;
+      min-width: 52px;
+    }
+
+    .question-text {
+      flex: 1;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .question-helper {
+      color: rgb(var(--color-muted));
+      font-size: 11px;
+      letter-spacing: 0.08em;
+    }
+
+    .answer-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .answer-button {
+      min-height: 44px;
+      padding: 0 12px;
+      color: rgb(var(--color-muted));
+      background: rgb(var(--color-background) / 0.55);
+      font-size: 11px;
+    }
+
+    .answer-button.is-selected {
+      border-color: rgb(var(--color-accent));
+      color: rgb(var(--color-accent));
+      background: rgb(var(--color-accent-soft));
+    }
+
+    .results-panel {
+      position: sticky;
+      top: 112px;
+      align-self: start;
+      border: 1px solid rgb(var(--color-border));
+      background: rgb(var(--color-surface) / 0.92);
+      padding: 24px;
+      display: grid;
+      gap: 22px;
+    }
+
+    .score-line,
+    .report-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgb(var(--color-border));
+    }
+
+    .score-value {
+      font-size: clamp(56px, 12vw, 96px);
+      line-height: 0.88;
+    }
+
+    .score-total {
+      color: rgb(var(--color-muted));
+      font-size: 12px;
+    }
+
+    .result-band {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      width: fit-content;
+      padding: 0 14px;
+      border: 1px solid rgb(var(--color-accent));
+      color: rgb(var(--color-accent));
+      background: rgb(var(--color-accent-soft));
+      font-size: 11px;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .metric-card {
+      border: 1px solid rgb(var(--color-border));
+      padding: 12px;
+      background: rgb(var(--color-background) / 0.45);
+      min-height: 90px;
+    }
+
+    .metric-value {
+      margin-top: 10px;
+      font-size: 24px;
+      color: rgb(var(--color-text));
+    }
+
+    .metric-copy {
+      margin-top: 10px;
+      color: rgb(var(--color-muted));
+      font-size: 10px;
+      letter-spacing: 0.08em;
+    }
+
+    .insight-list,
+    .band-list {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .insight-item,
+    .band-list li {
+      border-top: 1px solid rgb(var(--color-border));
+      padding-top: 12px;
+    }
+
+    .insight-heading {
+      font-size: 11px;
+      color: rgb(var(--color-text));
+      margin-bottom: 6px;
+    }
+
+    .report-panel {
+      border: 1px solid rgb(var(--color-border));
+      background: rgb(var(--color-background) / 0.32);
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .lead-form {
+      display: grid;
+      gap: 12px;
+    }
+
+    .lead-form input {
+      min-height: 48px;
+      border: 1px solid rgb(var(--color-border));
+      background: rgb(var(--color-background) / 0.55);
+      padding: 0 14px;
+      outline: none;
+    }
+
+    .lead-form input:focus {
+      border-color: rgb(var(--color-border-light));
+    }
+
+    .lead-form .cta-button {
+      width: 100%;
+    }
+
+    .success-note {
+      border: 1px solid rgb(var(--color-accent));
+      color: rgb(var(--color-accent));
+      background: rgb(var(--color-accent-soft));
+      padding: 12px 14px;
+      font-size: 11px;
+      display: none;
+    }
+
+    .success-note.is-visible {
+      display: block;
+    }
+
+    .footer-strip {
+      padding: 24px 0 32px;
+    }
+
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: rgb(var(--color-muted));
+      font-size: 11px;
+      flex-wrap: wrap;
+    }
+
+    .print-only {
+      display: none;
+    }
+
+    @media (max-width: 1100px) {
+      .app-intro-grid,
+      .assessment-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .results-panel {
+        position: static;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .header-inner,
+      .section-inner {
+        width: min(calc(100% - 28px), var(--max-width));
+      }
+
+      .header-inner {
+        padding: 14px 0;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .header-meta {
+        justify-content: flex-start;
+      }
+
+      .summary-grid,
+      .results-grid,
+      .answer-row {
+        grid-template-columns: 1fr;
+      }
+
+      .question-topline,
+      .score-line,
+      .report-row,
+      .footer-grid {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+        color: #111111;
+      }
+
+      .site-header,
+      .footer-strip,
+      .tool-actions,
+      .lead-form,
+      .success-note,
+      .report-tools,
+      .report-caption {
+        display: none !important;
+      }
+
+      .print-only {
+        display: block;
+      }
+
+      .app-intro,
+      .main-section,
+      .summary-grid,
+      .summary-card,
+      .question-card,
+      .results-panel,
+      .metric-card,
+      .report-panel {
+        border-color: #cfcfcf !important;
+        background: #ffffff !important;
+        color: #111111 !important;
+      }
+
+      .tool-copy,
+      .section-copy,
+      .result-copy,
+      .lead-copy,
+      .micro-copy,
+      .summary-copy,
+      .metric-copy,
+      .band-list li {
+        color: #555555 !important;
+      }
+
+      .assessment-grid,
+      .app-intro-grid,
+      .results-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .results-panel {
+        position: static;
+        page-break-inside: avoid;
+      }
+
+      .question-card,
+      .summary-card,
+      .metric-card,
+      .report-panel {
+        page-break-inside: avoid;
+      }
+
+      .answer-button {
+        background: #ffffff !important;
+        color: #777777 !important;
+        border-color: #cfcfcf !important;
+      }
+
+      .answer-button.is-selected,
+      .result-band,
+      .cta-button {
+        color: #111111 !important;
+        border-color: #111111 !important;
+        background: #f2f2f2 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="header-brand" href="#top" aria-label="BSD XR home">
+          <img src="branding/logo-dark.png" alt="BSD XR" />
+        </a>
+        <div class="header-meta">
+          <div class="pill">XR READINESS ASSESSMENT</div>
+          <div class="pill">INTERNAL TOOL / LEAD QUALIFIER</div>
+          <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">MODE</button>
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="app-intro">
+        <div class="section-inner app-intro-grid">
+          <div>
+            <div class="eyebrow">XR READINESS TOOL</div>
+            <h1 class="tool-title">ASSESS ORGANIZATIONAL READINESS FOR XR DEPLOYMENT</h1>
+            <p class="tool-copy">
+              USE THIS TOOL TO SCORE TRAINING MATURITY, SAFETY EXPOSURE, TEAM DISTRIBUTION, DOCUMENTATION READINESS, BUDGET SIGNALS, AND LMS REQUIREMENTS. THE RESULT IS A SIMPLE READINESS CLASSIFICATION PLUS A PRINTABLE SUMMARY.
+            </p>
+            <div class="tool-actions">
+              <a class="utility-button" href="#assessment">GO TO QUESTIONS</a>
+              <button class="utility-button" id="printButton" type="button">EXPORT PDF</button>
+              <a class="cta-button" href="#report">GET YOUR FREE XR OPPORTUNITY REPORT</a>
+            </div>
+          </div>
+          <div class="summary-grid" aria-label="Tool summary">
+            <div class="summary-card">
+              <div class="mini-label">QUESTIONS</div>
+              <div class="summary-value">07</div>
+              <div class="summary-copy">TRAINING, TURNOVER, SAFETY, SCALE, SOPS, HARDWARE, LMS.</div>
+            </div>
+            <div class="summary-card">
+              <div class="mini-label">OUTPUT</div>
+              <div class="summary-value">03</div>
+              <div class="summary-copy">EMERGING, READY NOW, OR HIGH IMPACT CANDIDATE.</div>
+            </div>
+            <div class="summary-card">
+              <div class="mini-label">EXPORT</div>
+              <div class="summary-value">PDF</div>
+              <div class="summary-copy">SAVE A CLEAN SNAPSHOT USING THE BUILT-IN BROWSER PRINT-TO-PDF FLOW.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="main-section" id="assessment">
+        <div class="section-inner assessment-grid">
+          <div>
+            <div class="eyebrow">QUESTIONNAIRE</div>
+            <h2 class="section-title">XR READINESS ASSESSMENT</h2>
+            <p class="section-copy">
+              ANSWER EACH QUESTION BASED ON CURRENT OPERATIONS. SCORES UPDATE IMMEDIATELY, MAKING THIS USEFUL FOR LIVE DISCOVERY CALLS, SELF-SERVICE QUALIFICATION, OR EXPORTING A QUICK INTERNAL REPORT.
+            </p>
+            <div class="question-list" id="questionList"></div>
+          </div>
+
+          <aside class="results-panel" aria-live="polite">
+            <div class="print-only">
+              <div class="eyebrow">BSD XR</div>
+              <h2 class="section-title" style="margin-bottom: 10px;">XR READINESS REPORT</h2>
+            </div>
+
+            <div>
+              <div class="mini-label">READINESS SCORE</div>
+              <div class="score-line">
+                <div class="score-value" id="scoreValue">0</div>
+                <div class="score-total">/ 14</div>
+              </div>
+            </div>
+
+            <div>
+              <div class="mini-label">CURRENT BAND</div>
+              <div class="result-band" id="resultBand">EMERGING</div>
+            </div>
+
+            <p class="result-copy" id="resultCopy">
+              EARLY FOUNDATIONS ARE FORMING. THERE IS OPPORTUNITY, BUT XR VALUE WILL GROW FASTEST AFTER CORE OPERATIONS AND CONTENT READINESS ARE TIGHTENED.
+            </p>
+
+            <div class="results-grid">
+              <div class="metric-card">
+                <div class="mini-label">QUESTIONS ANSWERED</div>
+                <div class="metric-value" id="answeredCount">7</div>
+                <div class="metric-copy">THIS TOOL DEFAULTS EACH RESPONSE TO NO UNTIL UPDATED.</div>
+              </div>
+              <div class="metric-card">
+                <div class="mini-label">READINESS SIGNAL</div>
+                <div class="metric-value" id="readinessSignal">LOW</div>
+                <div class="metric-copy">A QUICK QUALITATIVE READ FOR DISCOVERY OR REPORTING.</div>
+              </div>
+            </div>
+
+            <ul class="insight-list" id="insightList"></ul>
+
+            <div>
+              <div class="mini-label">SCORING BANDS</div>
+              <ul class="band-list">
+                <li>0-5: EMERGING</li>
+                <li>6-10: READY NOW</li>
+                <li>11-14: HIGH IMPACT CANDIDATE</li>
+              </ul>
+            </div>
+
+            <section id="report">
+              <div class="mini-label">NEXT STEP</div>
+              <div class="report-panel">
+                <div class="report-row">
+                  <div>
+                    <div class="detail-label" style="color: rgb(var(--color-text));">GET YOUR FREE XR OPPORTUNITY REPORT</div>
+                    <div class="report-caption" style="margin-top: 10px;">CAPTURE CONTACT DETAILS TO FOLLOW THIS SCORE WITH RECOMMENDED USE CASES AND DEPLOYMENT NEXT STEPS.</div>
+                  </div>
+                </div>
+                <form class="lead-form" id="leadForm">
+                  <input type="text" name="name" placeholder="NAME" aria-label="Name" required />
+                  <input type="email" name="email" placeholder="WORK EMAIL" aria-label="Work email" required />
+                  <input type="text" name="company" placeholder="COMPANY" aria-label="Company" required />
+                  <button class="cta-button" type="submit">GET YOUR FREE XR OPPORTUNITY REPORT</button>
+                </form>
+                <div class="report-tools">
+                  <button class="utility-button" id="reportPrintButton" type="button">SAVE REPORT AS PDF</button>
+                </div>
+                <div class="success-note" id="successNote">
+                  THANK YOU. YOUR ASSESSMENT IS READY FOR FOLLOW-UP.
+                </div>
+                <p class="report-caption">THIS DEMO STORES RESPONSES IN YOUR BROWSER ONLY.</p>
+              </div>
+            </section>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer-strip">
+      <div class="section-inner footer-grid">
+        <div>BSD XR | IMMERSIVE TECHNOLOGY EXPERTS</div>
+        <div>WINNIPEG, MB, CANADA</div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const logo = document.querySelector('.header-brand img');
+    const themeToggle = document.getElementById('themeToggle');
+    const questionList = document.getElementById('questionList');
+    const scoreValue = document.getElementById('scoreValue');
+    const resultBand = document.getElementById('resultBand');
+    const resultCopy = document.getElementById('resultCopy');
+    const insightList = document.getElementById('insightList');
+    const leadForm = document.getElementById('leadForm');
+    const successNote = document.getElementById('successNote');
+    const answeredCount = document.getElementById('answeredCount');
+    const readinessSignal = document.getElementById('readinessSignal');
+    const printButton = document.getElementById('printButton');
+    const reportPrintButton = document.getElementById('reportPrintButton');
+
+    const questions = [
+      {
+        id: 'training',
+        text: 'DO YOU HAVE REPEATABLE TRAINING PROCESSES?',
+        helper: 'CONSISTENT TRAINING PROGRAMS ARE EASIER TO SCALE WITH XR.',
+        insights: {
+          low: 'XR DEPLOYMENTS LAND FASTEST WHEN TRAINING FLOWS ARE STANDARDIZED FIRST.',
+          medium: 'PARTIAL STANDARDIZATION SUGGESTS XR PILOTS COULD WORK IN SPECIFIC TEAMS.',
+          high: 'REPEATABLE TRAINING IS A STRONG FOUNDATION FOR IMMERSIVE DELIVERY.'
+        }
+      },
+      {
+        id: 'turnover',
+        text: 'DO YOU HAVE HIGH TURNOVER ROLES?',
+        helper: 'XR OFTEN DELIVERS THE MOST VALUE WHERE ONBOARDING IS CONSTANT.',
+        insights: {
+          low: 'LOWER TURNOVER MAY REDUCE URGENCY, BUT KNOWLEDGE TRANSFER STILL MATTERS.',
+          medium: 'SOME TURNOVER CREATES OPPORTUNITY FOR TARGETED XR TRAINING CONTENT.',
+          high: 'HIGH TURNOVER CAN MAKE IMMERSIVE ONBOARDING A HIGH-IMPACT INVESTMENT.'
+        }
+      },
+      {
+        id: 'safety',
+        text: 'IS THE WORK SAFETY-SENSITIVE?',
+        helper: 'RISK-HEAVY ENVIRONMENTS BENEFIT FROM REPETITION WITHOUT REAL-WORLD EXPOSURE.',
+        insights: {
+          low: 'LOWER SAFETY PRESSURE SHIFTS THE CASE TOWARD EFFICIENCY OR QUALITY USE CASES.',
+          medium: 'MODERATE SAFETY EXPOSURE COULD SUPPORT PROCEDURAL SIMULATION USE CASES.',
+          high: 'SAFETY-SENSITIVE WORK IS OFTEN A TOP XR VALUE DRIVER.'
+        }
+      },
+      {
+        id: 'sites',
+        text: 'DO YOU HAVE MULTI-SITE TEAMS?',
+        helper: 'DISTRIBUTED TEAMS INCREASE THE VALUE OF STANDARDIZED, PORTABLE LEARNING.',
+        insights: {
+          low: 'SINGLE-SITE DELIVERY MAY REDUCE SCALE BENEFITS, BUT PILOTS CAN STILL FIT.',
+          medium: 'SOME DISTRIBUTION SUGGESTS A CLEAR CASE FOR STANDARDIZED XR ROLLOUTS.',
+          high: 'MULTI-SITE TEAMS INCREASE THE SCALABILITY CASE FOR XR DEPLOYMENT.'
+        }
+      },
+      {
+        id: 'docs',
+        text: 'DO YOU HAVE EXISTING SOPS OR DOCUMENTATION?',
+        helper: 'CURRENT DOCUMENTATION SHORTENS CONTENT DEVELOPMENT TIME.',
+        insights: {
+          low: 'LIMITED DOCUMENTATION MEANS DISCOVERY WILL MATTER BEFORE XR CONTENT CREATION.',
+          medium: 'PARTIAL DOCUMENTATION CAN SUPPORT A FOCUSED PROOF OF CONCEPT.',
+          high: 'STRONG SOPS ACCELERATE CONTENT DESIGN AND DEPLOYMENT.'
+        }
+      },
+      {
+        id: 'budget',
+        text: 'DO YOU HAVE A HARDWARE BUDGET?',
+        helper: 'DEVICE PLANNING HELPS MOVE FROM INTEREST TO REAL DEPLOYMENT.',
+        insights: {
+          low: 'NO BUDGET YET SUGGESTS THE NEXT STEP IS BUSINESS CASE DEVELOPMENT.',
+          medium: 'PARTIAL BUDGETING CAN SUPPORT A SMALL PILOT OR LIMITED ROLLOUT.',
+          high: 'BUDGET READINESS REDUCES FRICTION BETWEEN DISCOVERY AND EXECUTION.'
+        }
+      },
+      {
+        id: 'lms',
+        text: 'DO YOU NEED LMS INTEGRATION?',
+        helper: 'SYSTEM REQUIREMENTS SIGNAL DEPLOYMENT MATURITY AND REPORTING NEEDS.',
+        insights: {
+          low: 'NO LMS NEED MAY KEEP DEPLOYMENT SIMPLE, BUT REPORTING NEEDS SHOULD BE VERIFIED.',
+          medium: 'SOME INTEGRATION NEEDS SUGGEST ENTERPRISE DEPLOYMENT CONSIDERATIONS.',
+          high: 'CLEAR LMS REQUIREMENTS POINT TO A MATURE TRAINING ECOSYSTEM.'
+        }
+      }
+    ];
+
+    const answers = [
+      { label: 'NO', value: 0, key: 'low' },
+      { label: 'SOMEWHAT', value: 1, key: 'medium' },
+      { label: 'YES', value: 2, key: 'high' }
+    ];
+
+    const resultBands = [
+      {
+        name: 'EMERGING',
+        min: 0,
+        max: 5,
+        signal: 'LOW',
+        copy: 'EARLY FOUNDATIONS ARE FORMING. THERE IS OPPORTUNITY, BUT XR VALUE WILL GROW FASTEST AFTER CORE OPERATIONS AND CONTENT READINESS ARE TIGHTENED.'
+      },
+      {
+        name: 'READY NOW',
+        min: 6,
+        max: 10,
+        signal: 'MODERATE',
+        copy: 'YOUR ORGANIZATION HAS STRONG SIGNALS FOR XR ADOPTION. A FOCUSED PILOT COULD QUICKLY VALIDATE IMPACT AND BUILD INTERNAL MOMENTUM.'
+      },
+      {
+        name: 'HIGH IMPACT CANDIDATE',
+        min: 11,
+        max: 14,
+        signal: 'HIGH',
+        copy: 'YOUR ENVIRONMENT SHOWS MULTIPLE CONDITIONS WHERE XR CAN DELIVER FAST, MEASURABLE VALUE. THIS IS PRIME TERRITORY FOR DEPLOYMENT PLANNING.'
+      }
+    ];
+
+    const state = Object.fromEntries(questions.map((question) => [question.id, 0]));
+
+    function isLightTheme() {
+      return document.documentElement.classList.contains('light');
+    }
+
+    function updateLogo() {
+      logo.src = isLightTheme() ? 'branding/logo-light.png' : 'branding/logo-dark.png';
+    }
+
+    function getBand(score) {
+      return resultBands.find((band) => score >= band.min && score <= band.max) || resultBands[0];
+    }
+
+    function getTopInsights() {
+      return questions
+        .map((question) => {
+          const answer = answers.find((item) => item.value === state[question.id]);
+          return {
+            id: question.id,
+            text: question.text,
+            insight: question.insights[answer.key]
+          };
+        })
+        .sort((left, right) => state[right.id] - state[left.id])
+        .slice(0, 3);
+    }
+
+    function renderInsights() {
+      insightList.innerHTML = '';
+      getTopInsights().forEach((item) => {
+        const li = document.createElement('li');
+        li.className = 'insight-item';
+
+        const title = document.createElement('div');
+        title.className = 'insight-heading';
+        title.textContent = item.text;
+
+        const copy = document.createElement('div');
+        copy.className = 'micro-copy';
+        copy.textContent = item.insight;
+
+        li.append(title, copy);
+        insightList.appendChild(li);
+      });
+    }
+
+    function renderResults() {
+      const totalScore = Object.values(state).reduce((sum, value) => sum + value, 0);
+      const band = getBand(totalScore);
+      scoreValue.textContent = totalScore;
+      resultBand.textContent = band.name;
+      resultCopy.textContent = band.copy;
+      readinessSignal.textContent = band.signal;
+      answeredCount.textContent = questions.length;
+      renderInsights();
+    }
+
+    function renderQuestions() {
+      questionList.innerHTML = '';
+
+      questions.forEach((question, index) => {
+        const card = document.createElement('section');
+        card.className = 'question-card';
+
+        const topline = document.createElement('div');
+        topline.className = 'question-topline';
+
+        const number = document.createElement('div');
+        number.className = 'question-number';
+        number.textContent = String(index + 1).padStart(2, '0');
+
+        const text = document.createElement('div');
+        text.className = 'question-text';
+        text.textContent = question.text;
+
+        topline.append(number, text);
+
+        const helper = document.createElement('p');
+        helper.className = 'question-helper';
+        helper.textContent = question.helper;
+
+        const answerRow = document.createElement('div');
+        answerRow.className = 'answer-row';
+
+        answers.forEach((answer) => {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'answer-button';
+          button.textContent = answer.label;
+
+          if (state[question.id] === answer.value) {
+            button.classList.add('is-selected');
+          }
+
+          button.addEventListener('click', () => {
+            state[question.id] = answer.value;
+            renderQuestions();
+            renderResults();
+          });
+
+          answerRow.appendChild(button);
+        });
+
+        card.append(topline, helper, answerRow);
+        questionList.appendChild(card);
+      });
+    }
+
+    function exportPdf() {
+      window.print();
+    }
+
+    themeToggle.addEventListener('click', () => {
+      document.documentElement.classList.toggle('light');
+      try {
+        localStorage.setItem('bsdxr-theme', isLightTheme() ? 'light' : 'dark');
+      } catch (e) {}
+      updateLogo();
+    });
+
+    printButton.addEventListener('click', exportPdf);
+    reportPrintButton.addEventListener('click', exportPdf);
+
+    leadForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const formData = new FormData(leadForm);
+      const totalScore = Object.values(state).reduce((sum, value) => sum + value, 0);
+      const payload = {
+        name: String(formData.get('name') || '').trim(),
+        email: String(formData.get('email') || '').trim(),
+        company: String(formData.get('company') || '').trim(),
+        score: totalScore,
+        band: getBand(totalScore).name,
+        submittedAt: new Date().toISOString()
+      };
+
+      try {
+        localStorage.setItem('bsdxr-xr-readiness-demo', JSON.stringify(payload));
+      } catch (e) {}
+
+      successNote.classList.add('is-visible');
+      leadForm.reset();
+    });
+
+    updateLogo();
+    renderQuestions();
+    renderResults();
+  </script>
+</body>
+</html>
